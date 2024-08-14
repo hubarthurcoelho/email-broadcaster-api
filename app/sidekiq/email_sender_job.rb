@@ -1,7 +1,7 @@
 class EmailSenderJob
   include Sidekiq::Job
 
-  def perform(*args)
-    # Do something
+  def perform(title, body)
+    puts "#{title}: #{body}"
   end
 end
