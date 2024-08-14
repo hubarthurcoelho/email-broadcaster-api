@@ -43,3 +43,5 @@ end
 
 
 gem "sidekiq", "~> 7.3"
+
+gem "pg", "~> 1.5"
