@@ -6,7 +6,7 @@ class MessagesController < ApplicationController
 
   def show
     @message = Message.includes(:message_receipts).find(params[:id])
-    render json: @message.as_json(only: [ :body, :title ], include: { message_recipients: { only: [ :recipient, :status, :delivered_at ] } })
+    render json: @message.as_json(only: [ :body, :title ], include: { message_receipts: { only: [ :address, :status, :delivered_at ] } })
   end
 
   def create

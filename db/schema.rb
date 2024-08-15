@@ -24,6 +24,15 @@ ActiveRecord::Schema[7.2].define(version: 2024_08_15_223555) do
     t.index ["message_id"], name: "index_message_receipts_on_message_id"
   end
 
+  create_table "message_recipients", force: :cascade do |t|
+    t.bigint "message_id", null: false
+    t.string "email"
+    t.datetime "sent_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["message_id"], name: "index_message_recipients_on_message_id"
+  end
+
   create_table "messages", force: :cascade do |t|
     t.text "body"
     t.string "title"
@@ -32,4 +41,5 @@ ActiveRecord::Schema[7.2].define(version: 2024_08_15_223555) do
   end
 
   add_foreign_key "message_receipts", "messages"
+  add_foreign_key "message_recipients", "messages"
 end
