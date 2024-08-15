@@ -12,10 +12,33 @@ services:
     networks:
       - app-network
 
+  sidekiq:
+    depends_on:
+      - 'db'
+      - 'redis'
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    command: bundle exec sidekiq
+    volumes:
+      - app-storage:/rails/storage
+      - '/project/tmp' # don't mount tmp directory
+    environment:
+      - RAILS_ENV=${RAILS_ENV}
+      - POSTGRES_HOST=${POSTGRES_HOST}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - RAILS_MASTER_KEY=${RAILS_MASTER_KEY}
+      - RAILS_MAX_THREADS=${RAILS_MAX_THREADS}
+      - REDIS_URL=${REDIS_URL}
+    networks:
+      - app-network
+
   redis:
     image: redis:7
     ports:
-      - "6379:6379"
+      - "6380:6379"
     networks:
       - app-network
   
@@ -30,6 +53,8 @@ services:
       - "3010:3000"
     depends_on:
       - db
+      - redis
+      - sidekiq
     networks:
       - app-network
     environment:
@@ -40,6 +65,7 @@ services:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - RAILS_MASTER_KEY=${RAILS_MASTER_KEY}
       - RAILS_MAX_THREADS=${RAILS_MAX_THREADS}
+      - REDIS_URL=${REDIS_URL}
 volumes:
   postgres_data:
   app-storage:
