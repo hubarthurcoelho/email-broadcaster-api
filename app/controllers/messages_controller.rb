@@ -13,13 +13,13 @@ class MessagesController < ApplicationController
     @message = Message.new(message_params)
 
     if @message.save
-      render json: @message, status: :created
-
       if params[:emails].present?
         params[:emails].each do |email|
-          @message.message_recipients.create(email: email, sent_at: Time.now)
+          SendEmailJob.perform_async(@message.id, email)
         end
       end
+
+      render json: @message, status: :created
     else
       render json: @message.errors, status: :unprocessable_entity
     end
