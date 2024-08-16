@@ -1,28 +1,44 @@
 class SendEmailJob
   include Sidekiq::Job
-  # will go immediately to the Dead tab upon first failure
-  sidekiq_options retry: 0
+
+  sidekiq_options retry: 0, queue: :mailers
 
   def perform(msg_id, address)
-    message = Message.find(msg_id)
+    message = find_message(msg_id)
+    receipt = create_receipt(message, address)
 
-    receipt = MessageReceipt.new(message: message, address: address, status: "PENDING")
-    if !receipt.save
-      puts "Error: #{receipt.errors.full_messages.join(', ')}"
-      return
+    response = send_email(address, message)
+    if !response[:error].nil?
+      raise EmailDeliveryError, response[:error]
     end
 
-    sg = Providers::SendGrid.initialize(api_key: ENV["SENDGRID_API_KEY"], domain: ENV["SENDGRID_DOMAIN"])
+    receipt.update(status: "DELIVERED", delivered_at: Time.current)
+    Rails.logger.info("Delivered email to #{address}")
 
-    response = Services::Email.initialize(email_sender_provider: sg).send(
-      to_email: address,
-      subject: message.title,
-      content: message.body
-    )
+    rescue StandardError => e
+      receipt&.update(status: "FAILED")
+      Rails.logger.error("SendEmailJob failed: msg_id #{msg_id}: #{e.message}")
+  end
 
-    puts response
+  private
 
-    receipt.update(status: "DELIVERED", delivered_at: Time.now)
-    puts "Delivered email to #{email}"
+  def find_message(msg_id)
+    Message.find(msg_id)
+  end
+
+  def create_receipt(message, address)
+    receipt = MessageReceipt.new(message: message, address: address, status: "PENDING")
+    receipt.save!
+    receipt
+  end
+
+  def send_email(address, message)
+    email_sender = build_email_sender
+    email_sender.send(to_email: address, subject: message.title, content: message.body)
+  end
+
+  def build_email_sender
+    sendgrid_provider = SendGridClient.new()
+    MailService.new(client: sendgrid_provider)
   end
 end
