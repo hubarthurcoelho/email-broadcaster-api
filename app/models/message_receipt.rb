@@ -1,8 +1,8 @@
 class MessageReceipt < ApplicationRecord
   belongs_to :message
 
+  enum :status, { PENDING: "PENDING", DELIVERED: "DELIVERED", FAILED: "FAILED" }
+
   validates :status, presence: true
-  validates :address, presence: true
-  validates :delivered_at, presence: false
-  validates :address, uniqueness: { scope: :message_id }
+  validates :address, presence: true, uniqueness: { scope: :message_id }
 end

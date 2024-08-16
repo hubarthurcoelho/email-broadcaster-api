@@ -1,8 +1,8 @@
 class MailService
-  def initialize(mail_client:)
-    @provider = mail_client
+  def initialize(client:)
+    @provider = client
     unless @provider.is_a?(MailClient)
-      raise ArgumentError, "mail_client must include MailClient module"
+      raise ArgumentError, "client must include MailClient module"
     end
   end
 
