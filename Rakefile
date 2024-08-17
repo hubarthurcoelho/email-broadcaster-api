@@ -33,3 +33,10 @@ namespace :app do
     sh "docker exec -it email_broadcaster_api rails c"
   end
 end
+
+namespace :specs do
+  desc "Run all specs"
+  task :run do
+    sh "bundle exec rspec"
+  end
+end
