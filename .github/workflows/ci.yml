@@ -91,6 +91,7 @@ jobs:
 
       - name: Rails test
         env:
+          POSTGRES_HOST: 127.0.0.1
           POSTGRES_USER: root
           POSTGRES_PASSWORD: root
           POSTGRES_DB: email_broadcaster_test
