@@ -1,5 +1,5 @@
 class MailService
-  def initialize(client:)
+  def initialize(client: SendGridClient.new)
     @provider = client
     unless @provider.is_a?(MailClient)
       raise ArgumentError, "client must include MailClient module"
