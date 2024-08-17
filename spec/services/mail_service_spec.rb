@@ -3,20 +3,24 @@ require "rails_helper"
 RSpec.describe MailService, type: :service do
   let(:mock_client) { instance_double("SendGridClient") }
 
+  before do
+    allow(mock_client).to receive(:is_a?).with(MailClient).and_return(true)
+  end
+
   describe "#initialize" do
     it "initializes with a valid mail client" do
-      expect { MailService.new(mock_client) }.not_to raise_error
+      expect { MailService.new(client: mock_client) }.not_to raise_error
     end
 
     it "raises an error when the client does not include MailClient" do
       allow(mock_client).to receive(:is_a?).with(MailClient).and_return(false)
 
-      expect { MailService.new(mock_client) }.to raise_error(ArgumentError, "client must include MailClient module")
+      expect { MailService.new(client: mock_client) }.to raise_error(ArgumentError, "client must include MailClient module")
     end
   end
 
   describe "#send" do
-    let(:mail_service) { MailService.new(mock_client) }
+    let(:mail_service) { MailService.new(client: mock_client) }
 
     it "calls the send method on the provider with the correct arguments" do
       to_email = "example@example.com"
