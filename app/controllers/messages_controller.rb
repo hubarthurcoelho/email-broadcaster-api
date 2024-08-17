@@ -21,9 +21,9 @@ class MessagesController < ApplicationController
       return render json: @message, status: :created
     end
 
-    errors = validate_emails(emails)
-    if errors.any?
-      return render json: errors, status: :unprocessable_entity
+    errs = EmailValidatorService.new.validate_multiple(emails)
+    if errs.any?
+      return render json: errs, status: :unprocessable_entity
     end
 
     EmailEnqueuerService.new(@message, emails).enqueue_jobs
@@ -37,17 +37,5 @@ class MessagesController < ApplicationController
 
     def emails_params
       params.permit(emails: [])
-    end
-
-    def validate_emails(emails)
-      errors = []
-
-      emails.each do |email|
-        unless email.is_a?(String) && email =~ URI::MailTo::EMAIL_REGEXP
-          errors << "#{email.inspect} is not a valid email address"
-        end
-      end
-
-      errors
     end
 end
