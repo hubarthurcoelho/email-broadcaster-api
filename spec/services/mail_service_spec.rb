@@ -20,12 +20,12 @@ RSpec.describe MailService, type: :service do
   end
 
   describe "#send" do
-    let(:mail_service) { MailService.new(client: mock_client) }
-
     it "calls the send method on the provider with the correct arguments" do
       to_email = "example@example.com"
       subject = "Hello"
       content = "This is the email content."
+
+      mail_service = MailService.new(client: mock_client)
 
       expect(mock_client).to receive(:send).with(to_email: to_email, subject: subject, content: content)
 
