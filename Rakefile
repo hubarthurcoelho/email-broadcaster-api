@@ -32,6 +32,11 @@ namespace :app do
   task :console do
     sh "docker exec -it email_broadcaster_api rails c"
   end
+
+  desc "Opens app terminal"
+  task :terminal do
+    sh "docker exec -it email_broadcaster_api /bin/bash"
+  end
 end
 
 namespace :specs do
