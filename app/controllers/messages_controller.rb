@@ -5,35 +5,49 @@ class MessagesController < ApplicationController
   end
 
   def show
-    @message = Message.includes(:message_receipts).find(params[:id])
-    render json: @message.as_json(
-      only: [ :id, :title, :body ],
-      include: {
-        message_receipts: {
-          only: [ :address, :status, :delivered_at ]
-        }
-      }
-    )
+    @message = Message.find(params[:id])
+    render json: @message
   end
 
   def create
     @message = Message.new(message_params)
 
     if !@message.save
-      render json: @message.errors, status: :unprocessable_entity
+      return render json: @message.errors, status: :unprocessable_entity
     end
 
-    if params[:emails].present?
-      params[:emails].each do |email|
-        SendEmailJob.perform_async(@message.id, email)
-      end
+    emails = emails_params[:emails]
+    if !emails.present?
+      return render json: @message, status: :created
     end
 
+    errors = validate_emails(emails)
+    if errors.any?
+      return render json: errors, status: :unprocessable_entity
+    end
+
+    EmailEnqueuerService.new(@message, emails).enqueue_jobs
     render json: @message, status: :created
   end
 
   private
     def message_params
       params.require(:message).permit(:body, :title)
+    end
+
+    def emails_params
+      params.permit(emails: [])
+    end
+
+    def validate_emails(emails)
+      errors = []
+
+      emails.each do |email|
+        unless email.is_a?(String) && email =~ URI::MailTo::EMAIL_REGEXP
+          errors << "#{email.inspect} is not a valid email address"
+        end
+      end
+
+      errors
     end
 end

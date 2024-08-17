@@ -3,5 +3,7 @@ Rails.application.routes.draw do
 
   get "up" => "rails/health#show", as: :rails_health_check
 
-  resources :messages
+  resources :messages, only: [ :show, :create, :index ] do
+    resources :message_receipts, only: [ :index ]
+  end
 end
