@@ -46,6 +46,7 @@ services:
       - app-network
   
   api:
+    container_name: email_broadcaster_api
     build:
       context: .
       dockerfile: Dockerfile.dev

@@ -4,3 +4,32 @@
 require_relative "config/application"
 
 Rails.application.load_tasks
+
+namespace :docker do
+  desc "Build and run all related containers"
+  task :build do
+    sh "docker compose up -d --build"
+  end
+
+  desc "Take down all related containers"
+  task :down do
+    sh "docker compose down"
+  end
+
+  desc "Take down all related containers and volumes"
+  task :downv do
+    sh "docker compose down -v"
+  end
+end
+
+namespace :app do
+  desc "Opens logs in terminal"
+  task :logs do
+    sh "docker logs --follow email_broadcaster_api"
+  end
+
+  desc "Opens app rails console in terminal"
+  task :console do
+    sh "docker exec -it email_broadcaster_api rails c"
+  end
+end
