@@ -4,7 +4,6 @@ require 'sidekiq/testing'
 RSpec.describe SendEmailJob, type: :job do
   let(:subject) { "Test Subject" }
   let(:content) { "Test Content" }
-  let(:address) { "recipient@example.com" }
   let(:message) { Message.create(title: subject, body: content) }
 
   before do
@@ -24,12 +23,16 @@ RSpec.describe SendEmailJob, type: :job do
       end
 
       it 'calls MailService with the correct params' do
+        address = "test@example.com"
+
         expect_any_instance_of(MailService).to receive(:send).with(to_email: address, subject: subject, content: content)
 
         SendEmailJob.perform_async(message.id, address)
       end
 
       it 'generates the correct receipt for the message' do
+        address = "test_the_second@example.com"
+
         SendEmailJob.perform_async(message.id, address)
 
         receipt = MessageReceipt.last
@@ -46,6 +49,8 @@ RSpec.describe SendEmailJob, type: :job do
       end
 
       it 'updates the receipt with the apropriate status' do
+        address = "test_the_third@example.com"
+
         SendEmailJob.perform_async(message.id, address)
 
         receipt = MessageReceipt.last
@@ -53,7 +58,9 @@ RSpec.describe SendEmailJob, type: :job do
       end
 
       it 'logs the error' do
+        address = "test_the_fourth@example.com"
         err_msg = an_instance_of(String)
+
         expect(Rails.logger).to receive(:error).with(err_msg)
 
         SendEmailJob.perform_async(message.id, address)
