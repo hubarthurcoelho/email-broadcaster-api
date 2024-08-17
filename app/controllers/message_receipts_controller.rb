@@ -1,4 +1,10 @@
 class MessageReceiptsController < ApplicationController
+  def index
+    @message = Message.find(params[:message_id])
+    @receipts = @message.message_receipts
+    render json: @receipts
+  end
+
   def create
     @message_receipt = MessageReceipt.create(message_receipt_params)
     if @message_receipt.save
