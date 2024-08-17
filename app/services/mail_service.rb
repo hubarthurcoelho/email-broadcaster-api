@@ -7,6 +7,8 @@ class MailService
   end
 
   def send(to_email:, subject:, content:)
+    # todo: validate email fmt, validate existence of subject/content
+
     @provider.send(to_email: to_email, subject: subject, content: content)
   end
 end
