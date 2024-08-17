@@ -35,8 +35,8 @@ class SendGridClient
   def send_email(mail:)
     response = @api.client.mail._("send").post(request_body: mail.to_json)
 
-    if response.status_code.to_i.between?(200, 299)
-      { body: response.body, error: nil }
+    if response.status_code.to_i > 299
+      { body: nil, error: "Failed to send email. Status code: #{response.status_code}, Error: #{response.body}" }
     else
       { body: response.body, error: nil }
     end
