@@ -15,7 +15,10 @@ development:
 
 test:
   <<: *default
-  database: email_broadcaster_test
+  host: <%= ENV['POSTGRES_HOST'] %>
+  database: <%= ENV['POSTGRES_DB'] %>
+  username: <%= ENV['POSTGRES_USER'] %>
+  password: <%= ENV['POSTGRES_PASSWORD'] %>
 
 production:
   <<: *default
