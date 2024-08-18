@@ -12,21 +12,22 @@ class MessagesController < ApplicationController
   def create
     @message = Message.new(message_params)
 
-    if !@message.save
-      return render json: @message.errors, status: :unprocessable_entity
-    end
-
     emails = emails_params[:emails]
-    if !emails.present?
-      return render json: @message, status: :created
+    if emails.blank?
+      return render json: { errors: [ "emails are required" ] }, status: :unprocessable_entity
     end
 
     errs = EmailValidatorService.new.validate_multiple(emails)
     if errs.any?
-      return render json: errs, status: :unprocessable_entity
+      return render json: { errors: errs }, status: :unprocessable_entity
+    end
+
+    if !@message.save
+      return render json: @message.errors, status: :unprocessable_entity
     end
 
     EmailEnqueuerService.new(@message, emails).enqueue_jobs
+
     render json: @message, status: :created
   end
 
