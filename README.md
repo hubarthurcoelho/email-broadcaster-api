@@ -1,24 +1,63 @@
-# README
+# Email Broadcaster API
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This is a Ruby on Rails API application designed for broadcasting emails to multiple recipients. It leverages Sidekiq for background processing and SendGrid for sending emails. The project is containerized using Docker Compose.
 
-Things you may want to cover:
+## Features
 
-* Ruby version
+- **Message Model**: Stores the content of the emails to be broadcasted.
+- **Message Receipts**: Tracks the status of each email sent (pending, failed, delivered).
+- **Sidekiq Integration**: Background job processing to handle email broadcasting asynchronously.
+- **SendGrid Integration**: Utilized for reliable email delivery.
 
-* System dependencies
+## Technologies Used
 
-* Configuration
+- **Ruby on Rails**: Backend framework for building the API.
+- **Sidekiq**: For background job processing.
+- **Redis**: In-memory data structure store, used by Sidekiq as a queue system.
+- **PostgreSQL**: Database of choice.
+- **Docker Compose**: Containerization for development and deployment.
+- **RSpec**: Testing framework used for writing and running test cases.
 
-* Database creation
+## Setup
 
-* Database initialization
+To set up the project locally, follow these steps:
 
-* How to run the test suite
+1. **Clone the repository**:
+    ```bash
+    git clone https://github.com/yourusername/email-broadcaster-api.git
+    cd email-broadcaster-api
+    ```
 
-* Services (job queues, cache servers, search engines, etc.)
+2. **Build and start the Docker containers**:
+    ```bash
+    rake docker:build or docker-compose up -d --build
+    ```
 
-* Deployment instructions
+3. **Take down Docker containers**:
+    ```bash
+    rake docker:down or docker-compose down
+    ```
 
-* ...
+4. **Open server logs**:
+    ```bash
+    rake app:logs
+    ```
+
+5. **Open server iteractive terminal**:
+    ```bash
+    rake app:terminal
+    ```
+  
+6. **Open server rails console**:
+    ```bash
+    rake app:console
+    ```
+
+## Testing
+
+To run the test suite, use the following command:
+
+```bash
+rake specs:run
+```
+
