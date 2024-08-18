@@ -27,7 +27,10 @@ RSpec.describe EmailValidatorService, type: :service do
 
     it "returns an array of errors for invalid email addresses" do
       errs = EmailValidatorService.new.validate_multiple(invalid_emails)
-      expect(errs).to have_attributes(length: 2)
+      expect(errs).to eq([
+        "validexample.com is not a valid email address",
+        "second_validexamplecom is not a valid email address"
+      ])
     end
   end
 end
