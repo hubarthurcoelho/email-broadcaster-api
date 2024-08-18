@@ -69,7 +69,7 @@ To set up the project locally, follow these steps:
 
 ## Using
 
-To use the provided endpoints, download this [vs-code extension](https://marketplace.visualstudio.com/items?itemName=rangav.vscode-thunder-client)
+To use the provided endpoints, download this [vs-code extension](https://marketplace.visualstudio.com/items?itemName=rangav.vscode-thunder-client) and import the thunder-client json file to the extension.
 
 ## Testing
 
