@@ -1,0 +1,64 @@
+{
+    "clientName": "Thunder Client",
+    "collectionName": "email-broadcaster-api",
+    "collectionId": "137a34fe-858f-4b08-983e-77f83275323c",
+    "dateExported": "2024-08-18T01:30:56.408Z",
+    "version": "1.2",
+    "folders": [],
+    "requests": [
+        {
+            "_id": "1dd57a5a-de69-49de-86a0-144ceee7b8b0",
+            "colId": "137a34fe-858f-4b08-983e-77f83275323c",
+            "containerId": "",
+            "name": "messages",
+            "url": "http://localhost:3010/messages",
+            "method": "GET",
+            "sortNum": 10000,
+            "created": "2024-08-14T16:49:20.728Z",
+            "modified": "2024-08-18T01:26:19.499Z",
+            "headers": []
+        },
+        {
+            "_id": "952a9b6e-ace0-4c3a-8830-4c6454587021",
+            "colId": "137a34fe-858f-4b08-983e-77f83275323c",
+            "containerId": "",
+            "name": "post messages",
+            "url": "http://localhost:3010/messages",
+            "method": "POST",
+            "sortNum": 20000,
+            "created": "2024-08-17T21:09:16.959Z",
+            "modified": "2024-08-18T01:28:59.063Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"title\": \"Eu sou Optimus Prime\",\n  \"body\": \"Esta é uma mensagem para qualquer autobot sobrevivente que esteja refugiado entre as estrelas. Estamos aqui. Estamos te esperando.\",\n  \"emails\": [\"example@gmail.com\"]\n}",
+                "form": []
+            }
+        },
+        {
+            "_id": "de425e1c-df41-4b09-9f5d-0947769db65d",
+            "colId": "137a34fe-858f-4b08-983e-77f83275323c",
+            "containerId": "",
+            "name": "get message by id",
+            "url": "http://localhost:3010/messages/1",
+            "method": "GET",
+            "sortNum": 30000,
+            "created": "2024-08-17T21:09:18.690Z",
+            "modified": "2024-08-18T01:29:57.803Z",
+            "headers": []
+        },
+        {
+            "_id": "e88b87fb-7c73-4fc8-9e27-ecb932849d42",
+            "colId": "137a34fe-858f-4b08-983e-77f83275323c",
+            "containerId": "",
+            "name": "get messages receipts",
+            "url": "http://localhost:3010/messages/1/message_receipts",
+            "method": "GET",
+            "sortNum": 40000,
+            "created": "2024-08-17T21:10:08.564Z",
+            "modified": "2024-08-18T01:30:01.685Z",
+            "headers": []
+        }
+    ],
+    "ref": "Xj21iL7E5pRHweDTI8SsbF7qb7pwf20BIa5ThnnB9IhEIs1KrdCB4Np-lodQ03T_p9VXIB82w1UL-St9FpIziQ"
+}

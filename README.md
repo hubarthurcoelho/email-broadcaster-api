@@ -39,7 +39,7 @@ To set up the project locally, follow these steps:
     RAILS_MASTER_KEY=811e86d7a30f3701bf612e785fbbf785
     REDIS_URL=redis://redis:6379/0
     SENDGRID_DOMAIN=your-domain
-    SENDGRID_API_KEY=your-api-key
+    SENDGRID_API_KEY=your-api-key [VERY IMPORTANT, visit [sendGrid](https://sendgrid.com/)]
     ```
 
 3. **Build and start the Docker containers**:
@@ -66,6 +66,14 @@ To set up the project locally, follow these steps:
     ```bash
     rake app:console
     ```
+
+## Using
+
+To use the provided endpoints, download this [vs-code extension](https://marketplace.visualstudio.com/items?itemName=rangav.vscode-thunder-client)
+
+```bash
+rake specs:run
+```
 
 ## Testing
 
