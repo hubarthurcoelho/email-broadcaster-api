@@ -1,21 +1,7 @@
 services:
-  db_test:
-    image: postgres:15
-    environment:
-      - POSTGRES_HOST=${POSTGRES_HOST_TEST}
-      - POSTGRES_DB=${POSTGRES_DB_TEST}
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-    volumes:
-      - postgres_data_test:/var/lib/postgresql/data
-    ports:
-      - "5433:5432"
-    networks:
-      - app-network
   db:
     image: postgres:15
     environment:
-      - POSTGRES_DB=${POSTGRES_DB}
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     volumes:
@@ -40,6 +26,7 @@ services:
     environment:
       - RAILS_ENV=${RAILS_ENV}
       - POSTGRES_HOST=${POSTGRES_HOST}
+      - POSTGRES_DB_TEST=${POSTGRES_DB_TEST}
       - POSTGRES_DB=${POSTGRES_DB}
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
@@ -79,6 +66,7 @@ services:
       - RAILS_ENV=${RAILS_ENV}
       - POSTGRES_HOST=${POSTGRES_HOST}
       - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_DB_TEST=${POSTGRES_DB_TEST}
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - RAILS_MASTER_KEY=${RAILS_MASTER_KEY}
@@ -88,7 +76,6 @@ services:
       - SENDGRID_DOMAIN=${SENDGRID_DOMAIN}
 volumes:
   postgres_data:
-  postgres_data_test:
   storage:
 
 networks:

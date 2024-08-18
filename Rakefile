@@ -42,6 +42,6 @@ end
 namespace :specs do
   desc "Run all specs"
   task :run do
-    sh "docker exec -it email_broadcaster_api bundle exec rspec"
+    sh "docker exec -it email_broadcaster_api bash -c 'RAILS_ENV=test bundle exec rspec'"
   end
 end

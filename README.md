@@ -31,7 +31,6 @@ To set up the project locally, follow these steps:
     ```dotenv
     RAILS_ENV=development
     POSTGRES_HOST=db
-    POSTGRES_HOST_TEST=db_test
     POSTGRES_DB=email_broadcaster
     POSTGRES_DB_TEST=email_broadcaster_test
     POSTGRES_USER=root
