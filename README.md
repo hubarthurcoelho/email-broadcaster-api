@@ -71,10 +71,6 @@ To set up the project locally, follow these steps:
 
 To use the provided endpoints, download this [vs-code extension](https://marketplace.visualstudio.com/items?itemName=rangav.vscode-thunder-client)
 
-```bash
-rake specs:run
-```
-
 ## Testing
 
 To run the test suites, use the following command:
