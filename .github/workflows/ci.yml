@@ -90,7 +90,7 @@ jobs:
           POSTGRES_HOST: 127.0.0.1
           POSTGRES_USER: root
           POSTGRES_PASSWORD: root
-          POSTGRES_DB: email_broadcaster_test
+          POSTGRES_DB_TEST: email_broadcaster_test
           RAILS_ENV: test
           RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
         run: |
