@@ -12,7 +12,7 @@ This is a Ruby on Rails API application designed for broadcasting emails to mult
 
 - **Ruby on Rails**: Backend framework for building the API.
 - **Sidekiq**: For background job processing.
-- **Redis**: In-memory data structure store, used for communication between the Server and Sidekiq.
+- **Redis**: In-memory data structure store, used for communication between the server and Sidekiq.
 - **PostgreSQL**: Database of choice.
 - **Docker Compose**: Containerization for development and deployment.
 - **RSpec**: Testing framework used for writing and running test cases.
@@ -27,36 +27,51 @@ To set up the project locally, follow these steps:
     cd email-broadcaster-api
     ```
 
-2. **Build and start the Docker containers**:
-    ```bash
-    rake docker:build or docker-compose up -d --build
+2. **Create the `.env` file**:
+    ```dotenv
+    RAILS_ENV=development
+    POSTGRES_HOST=db
+    POSTGRES_HOST_TEST=db_test
+    POSTGRES_DB=email_broadcaster
+    POSTGRES_DB_TEST=email_broadcaster_test
+    POSTGRES_USER=root
+    POSTGRES_PASSWORD=root
+    RAILS_MAX_THREADS=5
+    RAILS_MASTER_KEY=811e86d7a30f3701bf612e785fbbf785
+    REDIS_URL=redis://redis:6379/0
+    SENDGRID_DOMAIN=your-domain
+    SENDGRID_API_KEY=your-api-key
     ```
 
-3. **Stop Docker containers**:
+3. **Build and start the Docker containers**:
     ```bash
-    rake docker:down or docker-compose down
+    rake docker:build  # or docker-compose up -d --build
     ```
 
-4. **Open Server logs**:
+4. **Stop Docker containers**:
+    ```bash
+    rake docker:down  # or docker-compose down
+    ```
+
+5. **Open server logs**:
     ```bash
     rake app:logs
     ```
 
-5. **Open server iteractive terminal**:
+6. **Open server interactive terminal**:
     ```bash
     rake app:terminal
     ```
-  
-6. **Open server rails console**:
+
+7. **Open Rails console**:
     ```bash
     rake app:console
     ```
 
 ## Testing
 
-To run test suites, use the following command:
+To run the test suites, use the following command:
 
 ```bash
 rake specs:run
 ```
-
