@@ -4,16 +4,15 @@ This is a Ruby on Rails API application designed for broadcasting emails to mult
 
 ## Features
 
-- **Message Model**: Stores the content of the emails to be broadcasted.
+- **Messages**: Stores the content of the emails to be broadcasted.
 - **Message Receipts**: Tracks the status of each email sent (pending, failed, delivered).
-- **Sidekiq Integration**: Background job processing to handle email broadcasting asynchronously.
 - **SendGrid Integration**: Utilized for reliable email delivery.
 
 ## Technologies Used
 
 - **Ruby on Rails**: Backend framework for building the API.
 - **Sidekiq**: For background job processing.
-- **Redis**: In-memory data structure store, used by Sidekiq as a queue system.
+- **Redis**: In-memory data structure store, used for communication between the Server and Sidekiq.
 - **PostgreSQL**: Database of choice.
 - **Docker Compose**: Containerization for development and deployment.
 - **RSpec**: Testing framework used for writing and running test cases.
@@ -24,7 +23,7 @@ To set up the project locally, follow these steps:
 
 1. **Clone the repository**:
     ```bash
-    git clone https://github.com/yourusername/email-broadcaster-api.git
+    git clone git@github.com:hubarthurcoelho/email-broadcaster-api.git
     cd email-broadcaster-api
     ```
 
@@ -33,12 +32,12 @@ To set up the project locally, follow these steps:
     rake docker:build or docker-compose up -d --build
     ```
 
-3. **Take down Docker containers**:
+3. **Stop Docker containers**:
     ```bash
     rake docker:down or docker-compose down
     ```
 
-4. **Open server logs**:
+4. **Open Server logs**:
     ```bash
     rake app:logs
     ```
@@ -55,7 +54,7 @@ To set up the project locally, follow these steps:
 
 ## Testing
 
-To run the test suite, use the following command:
+To run test suites, use the following command:
 
 ```bash
 rake specs:run
