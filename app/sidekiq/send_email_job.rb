@@ -15,7 +15,8 @@ class SendEmailJob
     receipt.update(status: :DELIVERED, delivered_at: Time.current)
 
     rescue StandardError => e
-      handle_error(e: e, receipt: receipt)
+      receipt&.update(status: :FAILED)
+      Rails.logger.error(build_err_msg(e: e, receipt: receipt))
   end
 
   private
@@ -34,10 +35,7 @@ class SendEmailJob
       email_sender.send(to_email: address, subject: message.title, content: message.body)
     end
 
-    def handle_error (e:, receipt:)
-      receipt&.update(status: :FAILED)
-      Rails.logger.error(
-        "SendEmailJob failed: msg_id #{receipt.message_id}; address: #{receipt.address}: #{e.message}"
-      )
+    def build_err_msg (e:, receipt:)
+      "SendEmailJob failed: msg_id #{receipt.message_id}; address: #{receipt.address}: #{e.message}"
     end
 end
