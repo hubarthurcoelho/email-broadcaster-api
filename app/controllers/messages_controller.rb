@@ -1,9 +1,4 @@
 class MessagesController < ApplicationController
-  def index
-    @messages = Message.all
-    render json: @messages
-  end
-
   def show
     @message = Message.find(params[:id])
     render json: @message
@@ -13,6 +8,7 @@ class MessagesController < ApplicationController
     @message = Message.new(message_params)
 
     emails = emails_params[:emails]
+
     if emails.blank?
       return render json: { errors: [ "emails are required" ] }, status: :unprocessable_entity
     end

@@ -11,8 +11,6 @@ RSpec.describe SendEmailJob, type: :job do
   end
 
   after do
-    MessageReceipt.destroy_all
-    Message.destroy_all
     Sidekiq::Testing.fake!
   end
 
