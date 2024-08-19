@@ -13,6 +13,7 @@ class MessagesController < ApplicationController
     @message = Message.new(message_params)
 
     emails = emails_params[:emails]
+
     if emails.blank?
       return render json: { errors: [ "emails are required" ] }, status: :unprocessable_entity
     end
