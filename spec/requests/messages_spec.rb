@@ -14,7 +14,7 @@ RSpec.describe "Messages API", type: :request do
     Sidekiq::Testing.fake!
   end
 
-  describe "POST /messages" do
+  describe "Message creation" do
     context "with valid params" do
       let(:valid_params) do
         {
@@ -32,6 +32,22 @@ RSpec.describe "Messages API", type: :request do
         expect(response).to have_http_status(:created)
         expect(Message.count).to eq(1)
         expect(MessageReceipt.count).to eq(2)
+      end
+
+      it "lists the created message" do
+        post '/messages', params: valid_params
+        msg = Message.last
+
+        get "/messages/#{msg.id}"
+        body = JSON.parse(response.body)
+
+        expect(response).to have_http_status(:ok)
+        expect(body).to be_a(Hash)
+        expect(body).to include(
+          "id" => msg.id,
+          "title" => msg.title,
+          "body" => msg.body
+        )
       end
 
       it "lists message's receipts" do
