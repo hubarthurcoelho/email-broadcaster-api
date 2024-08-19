@@ -10,7 +10,7 @@ class MessagesController < ApplicationController
     emails = emails_params[:emails]
 
     if emails.blank?
-      return render json: { errors: [ "emails are required" ] }, status: :unprocessable_entity
+      return render json: { errors: [ "emails are required" ] }, status: :bad_request
     end
 
     errs = EmailValidatorService.new.validate_multiple(emails)
