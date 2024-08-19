@@ -1,15 +1,19 @@
 class SendEmailJob
   include Sidekiq::Job
 
+  def initialize(mailService: MailService.new)
+    @mail_service = mailService
+  end
+
   sidekiq_options retry: 0
 
   def perform(msg_id, address)
     message = find_message(msg_id)
     receipt = create_receipt(message, address)
 
-    response = send_email(message, address)
-    if response[:error]
-      raise EmailDeliveryError, response[:error]
+    res = @mail_service.send(to_email: address, subject: message.title, content: message.body)
+    if res[:error]
+      raise EmailDeliveryError, res[:error]
     end
 
     receipt.update(status: :DELIVERED, delivered_at: Time.current)
@@ -28,11 +32,6 @@ class SendEmailJob
       receipt = MessageReceipt.new(message: message, address: address, status: :PENDING)
       receipt.save!
       receipt
-    end
-
-    def send_email(message, address)
-      email_sender = MailService.new
-      email_sender.send(to_email: address, subject: message.title, content: message.body)
     end
 
     def build_err_msg (e:, receipt:)
