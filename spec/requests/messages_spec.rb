@@ -87,7 +87,7 @@ RSpec.describe "Messages API", type: :request do
 
         post '/messages', params: invalid_params
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:bad_request)
       end
 
       it "returns an error when emails are invalid" do
