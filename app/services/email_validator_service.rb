@@ -3,8 +3,9 @@ class EmailValidatorService
     errors = []
 
     emails.each do |email|
-      unless validate(email).nil?
-        errors << email
+      err = validate(email)
+      unless err.nil?
+        errors << err
       end
     end
 
